@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Rock, Paper, Scissors!</title>
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.3.1/firebase.js"></script>
+</head>
+<body>
+    <h1>Rock, Paper, or Scissors:</h1>
+    <h2>The Final Battle</h2>
+    <div id="name-entry">
+        <input id="name-input" type="text">
+        <button id="name-submit" type="button">This is my name!</button>
+    </div>
+    <div id="player-names"></div>
+    <div id="player-waiting"></div>
+    <div id="battleground">
+        <div id="player1">
+            <span id="playerName1"></span>
+            <div id="choices1"></div>
+            <span id="win-count1"></span>
+            <span id="loss-count1"></span>
+        </div>
+        <div id="win-lose"></div>
+        <div id="player2">
+            <span id="playerName2"></span>
+            <div id="choices2"></div>
+            <span id="win-count2"></span>
+            <span id="loss-count2"></span>
+        </div>
+    </div>
+    <div id="chat-channel">
+        <textarea id="messages"></textarea>
+        <input id="text-input" type="text">
+        <button id="text-submit" type="button">Send</button>
+    </div>
+
+    <script type="text/javascript" src="assets/javascript/rps.js"></script>
+</body>
+
+</html>
