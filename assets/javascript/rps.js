@@ -71,6 +71,7 @@ $(document).ready(function () {
     playersRef.child("playerchoice2").remove();
     playerChoice1 = "";
     playerChoice2 = "";
+    $("#win-lose").text("");
   };
 
   playersRef.on("value", function (snapshot) {
@@ -108,10 +109,10 @@ $(document).ready(function () {
   });
 
   database.ref().on("value", function (snapshot) {
-    if (snapshot.child("player1/playerchoice1").exists()) {
+    if (snapshot.child("players/player1/playerchoice1").exists()) {
       playerOneChose = true;
     };
-    if (snapshot.child("player2/playerchoice2").exists()) {
+    if (snapshot.child("players/player2/playerchoice2").exists()) {
       playerTwoChose = true;
     };
     console.log(playerOneChose);
@@ -120,7 +121,7 @@ $(document).ready(function () {
     $(document).on("click", ".choiceButton1", function () {
       if (!playerOneChose) {
         playerChoice1 = $(this).attr("data-choice");
-        playersRef.child("player1").push({ "playerchoice1": playerChoice1 });
+        playersRef.child("player1/playerchoice1").set({ "choice1": playerChoice1 });
         playerOneChose = true;
       }
     });
@@ -129,15 +130,15 @@ $(document).ready(function () {
     $(document).on("click", ".choiceButton2", function () {
       if (!playerTwoChose) {
         playerChoice2 = $(this).attr("data-choice");
-        playersRef.child("player2").push({ "playerchoice2": playerChoice2 });
+        playersRef.child("player2/playerchoice2").set({ "choice2": playerChoice2 });
         playerTwoChose = true;
       }
     });
 
-    if (snapshot.child("playerchoice1").exists() && snapshot.child("playerchoice2").exists()) {
-      if (playerChoice1 === playerChoice2) {
+    if (playerOneChose && playerTwoChose) {
+      if (snapshot.child("players/player1/player1choice/choice1").val() === snapshot.child("players/player2/player2choice/choice2").val() ) {
         $("#win-lose").text("Tie game");
-        nextGame();
+        setTimeout(nextGame(), 2000);
       }
     }
   });
