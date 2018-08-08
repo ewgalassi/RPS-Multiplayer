@@ -22,6 +22,9 @@ $(document).ready(function () {
   var playerTwoExists = false;
   var playerOneChose = false;
   var playerTwoChose = false;
+  var playerOneWins = false;
+  var playerTwoWins = false;
+  var tieGame = false;
 
   var winsPlayer1 = 0;
   var lossesPlayer1 = 0;
@@ -66,11 +69,21 @@ $(document).ready(function () {
     $("#choices2").append(scissors2);
   };
 
+  function tieGameFunction() {
+    $("#win-lose").text("Tie game");
+    setTimeout(nextGame, 2000);
+  }
+
   function nextGame() {
-    playersRef.child("playerchoice1").remove();
-    playersRef.child("playerchoice2").remove();
+    playersRef.child("player1/playerchoice1/").remove();
+    playersRef.child("player2/playerchoice2/").remove();
     playerChoice1 = "";
     playerChoice2 = "";
+    playerOneChose = false;
+    playerTwoChose = false;
+    playerOneWins = false;
+    playerTwoWins = false;
+    tieGame = false;
     $("#win-lose").text("");
   };
 
@@ -115,8 +128,6 @@ $(document).ready(function () {
     if (snapshot.child("players/player2/playerchoice2").exists()) {
       playerTwoChose = true;
     };
-    console.log(playerOneChose);
-    console.log(playerTwoChose);
 
     $(document).on("click", ".choiceButton1", function () {
       if (!playerOneChose) {
@@ -125,7 +136,6 @@ $(document).ready(function () {
         playerOneChose = true;
       }
     });
-
 
     $(document).on("click", ".choiceButton2", function () {
       if (!playerTwoChose) {
@@ -136,10 +146,42 @@ $(document).ready(function () {
     });
 
     if (playerOneChose && playerTwoChose) {
-      if (snapshot.child("players/player1/player1choice/choice1").val() === snapshot.child("players/player2/player2choice/choice2").val() ) {
-        $("#win-lose").text("Tie game");
-        setTimeout(nextGame(), 2000);
+      if (snapshot.child("players/player1/playerchoice1/choice1").val() === snapshot.child("players/player2/playerchoice2/choice2").val()) {
+        tieGame = true;
+      } else if (snapshot.child("players/player1/playerchoice1/choice1").val() === "choiceRock" && snapshot.child("players/player2/playerchoice2/choice2").val() === "choiceScissors") {
+        playerOneWins = true;
+      } else if (snapshot.child("players/player1/playerchoice1/choice1").val() === "choicePaper" && snapshot.child("players/player2/playerchoice2/choice2").val() === "choiceRock") {
+        playerOneWins = true;
+      } else if (snapshot.child("players/player1/playerchoice1/choice1").val() === "choiceScissors" && snapshot.child("players/player2/playerchoice2/choice2").val() === "choicePaper") {
+        playerOneWins = true;
+      } else if (snapshot.child("players/player2/playerchoice2/choice2").val() === "choiceRock" && snapshot.child("players/player1/playerchoice1/choice1").val() === "choiceScissors") {
+        playerTwoWins = true;
+      } else if (snapshot.child("players/player2/playerchoice2/choice2").val() === "choicePaper" && snapshot.child("players/player1/playerchoice1/choice1").val() === "choiceRock") {
+        playerTwoWins = true;
+      } else if (snapshot.child("players/player2/playerchoice2/choice2").val() === "choiceScissors" && snapshot.child("players/player1/playerchoice1/choice1").val() === "choicePaper") {
+        playerTwoWins = true;
       }
-    }
+    };
+
+    if (playerOneWins) {
+      $("#win-lose").text("Player 1 wins!");
+      winsPlayer1++;
+      lossesPlayer2++;
+      playerOneWins = false;
+      setTimeout(nextGame, 2000);
+    } else if (playerTwoWins) {
+      $("#win-lose").text("Player 2 wins!");
+      winsPlayer2++;
+      lossesPlayer1++;
+      playerTwoWins = false;
+      setTimeout(nextGame, 2000);
+    } else if (tieGame) {
+      tieGameFunction();
+    };
+
+    $("#win-count1").text("Wins: " + winsPlayer1);
+    $("#loss-count1").text("Losses: " + lossesPlayer1);
+    $("#win-count2").text("Wins: " + winsPlayer2);
+    $("#loss-count2").text("Losses: " + lossesPlayer2);
   });
 })
