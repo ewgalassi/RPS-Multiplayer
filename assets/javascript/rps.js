@@ -31,6 +31,11 @@ $(document).ready(function () {
   var winsPlayer2 = 0;
   var lossesPlayer2 = 0;
 
+  var message = "";
+  var newMessage = "";
+  var chatter;
+  var chatRef = database.ref("chat/");
+
   function renderChoices1() {
     rock1 = $("<button>");
     rock1.attr("data-choice", "choiceRock");
@@ -87,6 +92,7 @@ $(document).ready(function () {
     $("#win-lose").text("");
   };
 
+  //Game section
   playersRef.on("value", function (snapshot) {
     if (snapshot.child("player1").exists()) {
       playerOneExists = true;
@@ -183,5 +189,28 @@ $(document).ready(function () {
     $("#loss-count1").text("Losses: " + lossesPlayer1);
     $("#win-count2").text("Wins: " + winsPlayer2);
     $("#loss-count2").text("Losses: " + lossesPlayer2);
+
+    //Chat section
+    $("#text-submit").on("click", function (event) {
+      message = $("#text-input").val().trim();
+      $("text-input").text("");
+      if (player1) {
+        database.ref().child("chat").push({
+          "message": message,
+          "sender": player1
+        });
+      } else if (player2) {
+        database.ref().child("chat").push({
+          "message": message,
+          "sender": player2
+        });
+      }
+    });
+
+    chatRef.on("child_added", function(childSnapshot) {
+      newMessage = childSnapshot.child("message").val();
+      chatter = childSnapshot.child("sender").val();
+      $("#messages").append(chatter + ": " + newMessage + "<br>");
+    })
   });
 })
