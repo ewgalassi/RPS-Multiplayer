@@ -91,6 +91,7 @@ $(document).ready(function () {
     playerTwoWins = false;
     tieGame = false;
     $("#win-lose").text("");
+    $("button").removeClass("chosen");
   };
 
   //Game section
@@ -144,6 +145,7 @@ $(document).ready(function () {
       if (!playerOneChose) {
         playerChoice1 = $(this).attr("data-choice");
         playersRef.child("player1/playerchoice1").set({ "choice1": playerChoice1 });
+        $(this).addClass("chosen");
         playerOneChose = true;
       }
     });
@@ -152,6 +154,7 @@ $(document).ready(function () {
       if (!playerTwoChose) {
         playerChoice2 = $(this).attr("data-choice");
         playersRef.child("player2/playerchoice2").set({ "choice2": playerChoice2 });
+        $(this).addClass("chosen");
         playerTwoChose = true;
       }
     });

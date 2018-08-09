@@ -1,21 +1,23 @@
 body {
     text-align: center;
+    background-image: url(../images/destruction.jpg);
+    background-size: 100%;
 }
 
 h1 {
     font-size: 48px;
+    margin: 20px;
+    font-family: 'Audiowide', cursive;
 }
 
 h2 {
     font-size: 36px;
+    margin: 15px;
+    font-family: 'Prosto One', cursive;
 }
 
-textarea {
-    width: 25%;
-    height: 20%;
-    font-size: 18px;
-    text-overflow: auto;
-    padding: 10px;
+br {
+    width: 90%;
 }
 
 button {
@@ -24,32 +26,55 @@ button {
 
 input {
     font-size: 18px;
+    border-radius: 4px;
 }
 
 #name-entry {
-    margin: 10px;
+    margin-bottom: 10px;
     font-size: 18px;
 }
 
 #battleground {
     box-sizing: border-box;
+    width: 100%;
     padding-top: 10px;
     padding-bottom: 10px;
     margin-bottom: 20px;
+    margin-left: 0px;
+    margin-right: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
 }
 
 #player1, #player2, #win-lose {
     border: 1px solid gray;
+    border-radius: 4px;
     width: 30%;
     height: 150px;
     padding: 10px;
     float: left;
     margin: 10px;
     line-height: 2rem;
+    background-image: url(../images/rps.png);
+    background-size: 95%;
+    background-position-y: center;
+    font-weight: bold;
+    font-family: 'Aldrich', sans-serif;
+    color: rgb(175, 0, 0);
+    text-shadow:
+    -1px -1px 0 rgb(255, 255, 255),
+    1px -1px 0 rgb(255, 255, 255),
+    -1px 1px 0 rgb(255, 255, 255),
+    1px 1px 0 rgb(255, 255, 255);
 }
 
 #player1, #player2 {
     font-size: 24px;
+}
+
+#player2 {
+    padding-right: 0px;
+    margin-right: 0px;
 }
 
 #win-lose {
@@ -57,19 +82,131 @@ input {
 }
 
 #chat-channel {
-    margin-top: 20px;
+    width: 90%;
+    height: 30%;
+    margin-top: 0px;
     padding: 20px;
+    float: left;
 }
 
 #messages {
+    border: 1px solid gray;
     position: relative;
     clear: both;
+    margin-left: 36%;
+    margin-right: 30%;
+    margin-bottom: 5px;
+    box-sizing: border-box;
+    width: 35%;
+    height: 150px;
+    font-size: 18px;
+    font-family: 'Electrolize', sans-serif;
+    text-overflow: auto;
+    padding: 10px;
+    border-radius: 4px;
+    text-align: left;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: rgb(0, 65, 0);
+    text-shadow:
+		-1px -1px 0 rgb(255, 255, 255),
+		1px -1px 0 rgb(255, 255, 255),
+		-1px 1px 0 rgb(255, 255, 255),
+		1px 1px 0 rgb(255, 255, 255);
 }
 
 #text-input {
     clear: left;
+    margin-left: 10%;
+}
+
+#text-submit {
+    margin-right: 5%;
+}
+
+.counters {
+    position: relative;
+    top: 30px;
 }
 
 .hidden {
     visibility: hidden;
+}
+
+.chosen {
+    background-color: green;
+}
+
+@media screen and (max-width: 980px) {
+    body {
+        max-width: 100%;
+    }
+
+    #player1, #player2, #win-lose {
+        max-width: 25%;
+    }
+
+    #messages {
+        font-weight: bolder;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    body {
+        background-size: 200%;
+        background-position-x: center;
+    }
+
+    #messages {
+        color: black;
+        font-size: 20px;
+        text-shadow: none;
+    }
+}
+
+@media screen and (max-width: 640px) {
+    body {
+        max-width: 90%;
+    }
+
+    h1 {
+        font-size: 36px;
+    }
+
+    h2 {
+        font-size: 30px;
+    }
+
+    #battleground {
+        max-width: 100%;
+        margin-right: 0px;
+        padding-right: 0px;
+    }
+
+    #player1, #player2, #win-lose {
+        max-width: 30%;
+        width: 30%;
+        font-size: 20px;
+        height: 220px;
+        padding: 2px;
+        margin: 2px;
+    }
+
+    #player2 {
+        padding-right: 0px;
+        margin-right: 0px;
+    }
+
+    #messages {
+        width: 80%;
+        margin-left: 10%;
+    }
+
+    #text-input {
+        margin-left: 2%;
+    }
+
+    .counters {
+        top: 0px;
+    }
 }
