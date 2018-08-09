@@ -13,8 +13,9 @@ $(document).ready(function () {
 
   var database = firebase.database();
 
-  var player1;
-  var player2;
+  var player1 = false;
+  var player2 = false;
+  var playerName1;
   var playerChoice1;
   var playerChoice2;
   var playersRef = database.ref("players/");
@@ -96,32 +97,36 @@ $(document).ready(function () {
   playersRef.on("value", function (snapshot) {
     if (snapshot.child("player1").exists()) {
       playerOneExists = true;
+      playerName1 = snapshot.child("player1/name").val();
+      $("#playerName1").text(playerName1);
     };
     if (snapshot.child("player2").exists()) {
       playerTwoExists = true;
+      playerName2 = snapshot.child("player2/name").val();
+      $("#playerName2").text(playerName2);
     };
 
     $("#name-submit").on("click", function (event) {
       event.preventDefault();
       if (playerOneExists && !playerTwoExists) {
-        player2 = $("#name-input").val().trim();
+        playerName2 = $("#name-input").val().trim();
         playersRef.child("player2").set({
-          "name": player2,
+          "name": playerName2,
           "wins": winsPlayer2,
           "losses": lossesPlayer2
         });
-        $("#playerName2").text(player2);
         $("#name-entry").addClass("hidden");
+        player2 = true;
         renderChoices2();
       } else if (!playerOneExists) {
-        player1 = $("#name-input").val().trim();
+        playerName1 = $("#name-input").val().trim();
         playersRef.child("player1").set({
-          "name": player1,
+          "name": playerName1,
           "wins": winsPlayer1,
           "losses": lossesPlayer1
         });
-        $("#playerName1").text(player1);
         $("#name-entry").addClass("hidden");
+        player1 = true;
         renderChoices1();
       }
     });
@@ -189,28 +194,28 @@ $(document).ready(function () {
     $("#loss-count1").text("Losses: " + lossesPlayer1);
     $("#win-count2").text("Wins: " + winsPlayer2);
     $("#loss-count2").text("Losses: " + lossesPlayer2);
+  });
 
-    //Chat section
-    $("#text-submit").on("click", function (event) {
-      message = $("#text-input").val().trim();
-      $("text-input").text("");
-      if (player1) {
-        database.ref().child("chat").push({
-          "message": message,
-          "sender": player1
-        });
-      } else if (player2) {
-        database.ref().child("chat").push({
-          "message": message,
-          "sender": player2
-        });
-      }
-    });
+  //Chat section
+  $("#text-submit").on("click", function (event) {
+    message = $("#text-input").val().trim();
+    $("#text-input").val("");
+    if (player1) {
+      database.ref().child("chat").push({
+        "message": message,
+        "sender": playerName1
+      });
+    } else if (player2) {
+      database.ref().child("chat").push({
+        "message": message,
+        "sender": playerName2
+      });
+    };
+  });
 
-    chatRef.on("child_added", function(childSnapshot) {
-      newMessage = childSnapshot.child("message").val();
-      chatter = childSnapshot.child("sender").val();
-      $("#messages").append(chatter + ": " + newMessage + "<br>");
-    })
+  chatRef.on("child_added", function (childSnapshot) {
+    newMessage = childSnapshot.child("message").val();
+    chatter = childSnapshot.child("sender").val();
+    $("#messages").append(chatter + ": " + newMessage + "<br>");
   });
 })
