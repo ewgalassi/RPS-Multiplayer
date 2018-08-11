@@ -221,4 +221,9 @@ $(document).ready(function () {
     chatter = childSnapshot.child("sender").val();
     $("#messages").append(chatter + ": " + newMessage + "<br>");
   });
+
+  //Cleanup of Firebase on disconnect
+  database.ref("players/player1/").onDisconnect().remove();
+  database.ref("players/player2/").onDisconnect().remove();
+  database.ref("chat/").onDisconnect().remove();
 })
