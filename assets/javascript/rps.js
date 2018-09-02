@@ -133,6 +133,24 @@ $(document).ready(function () {
     });
   });
 
+  $(document).on("click", ".choiceButton1", function () {
+    if (!playerOneChose) {
+      playerChoice1 = $(this).attr("data-choice");
+      playersRef.child("player1/playerchoice1").set({ "choice1": playerChoice1 });
+      $(this).addClass("chosen");
+      playerOneChose = true;
+    }
+  });
+
+  $(document).on("click", ".choiceButton2", function () {
+    if (!playerTwoChose) {
+      playerChoice2 = $(this).attr("data-choice");
+      playersRef.child("player2/playerchoice2").set({ "choice2": playerChoice2 });
+      $(this).addClass("chosen");
+      playerTwoChose = true;
+    }
+  });
+
   database.ref().on("value", function (snapshot) {
     if (snapshot.child("players/player1/playerchoice1").exists()) {
       playerOneChose = true;
@@ -140,24 +158,6 @@ $(document).ready(function () {
     if (snapshot.child("players/player2/playerchoice2").exists()) {
       playerTwoChose = true;
     };
-
-    $(document).on("click", ".choiceButton1", function () {
-      if (!playerOneChose) {
-        playerChoice1 = $(this).attr("data-choice");
-        playersRef.child("player1/playerchoice1").set({ "choice1": playerChoice1 });
-        $(this).addClass("chosen");
-        playerOneChose = true;
-      }
-    });
-
-    $(document).on("click", ".choiceButton2", function () {
-      if (!playerTwoChose) {
-        playerChoice2 = $(this).attr("data-choice");
-        playersRef.child("player2/playerchoice2").set({ "choice2": playerChoice2 });
-        $(this).addClass("chosen");
-        playerTwoChose = true;
-      }
-    });
 
     if (playerOneChose && playerTwoChose) {
       if (snapshot.child("players/player1/playerchoice1/choice1").val() === snapshot.child("players/player2/playerchoice2/choice2").val()) {
